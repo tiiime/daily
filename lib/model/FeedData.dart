@@ -1,6 +1,7 @@
 class FeedData {
   String title;
   List<String> images;
+  String image;
   bool multiPic;
   int type;
   int id;
@@ -9,7 +10,8 @@ class FeedData {
 
   FeedData.fromJson(Map<String, dynamic> map) {
     title = map['title'];
-    images = List<String>.from(map['images']);
+    images = List<String>.from(map['images'] ?? []);
+    image = map['image'];
     multiPic = map['multipic'];
     type = map['type'];
     id = map['id'];
