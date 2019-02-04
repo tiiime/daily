@@ -46,9 +46,23 @@ class _FeedState extends State<FeedWidget> {
             );
           } else {
             final item = resp.stories[index - 1];
-            return ListTile(
-              title: Text(item.title),
-            );
+            return Container(
+                height: 100,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        item.title,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Flexible(
+                      child: Image.network(item.images[0] ?? "",
+                          fit: BoxFit.cover),
+                    )
+                  ],
+                ));
           }
         },
       );
