@@ -14,10 +14,7 @@ class _FeedState extends State<FeedWidget> {
   Widget build(BuildContext context) => FutureBuilder<LatestFeedResponse>(
       future: fetchPost(),
       builder: (context, snapshot) {
-        Center c = Center(
-          child: getChild(snapshot),
-        );
-        return c;
+        return getChild(snapshot);
       });
 
   getChild(snapshot) {
