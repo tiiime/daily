@@ -40,9 +40,9 @@ class _FeedState extends State<FeedWidget> {
         itemCount: resp.topStories.length,
         itemBuilder: (context, index) {
           if (index == 0) {
-            return Container(
+            return AspectRatio(
+              aspectRatio: 4 / 3.0,
               child: createHeaderPager(resp.topStories),
-              height: 200.0,
             );
           } else {
             final item = resp.stories[index - 1];
@@ -56,7 +56,19 @@ class _FeedState extends State<FeedWidget> {
   createHeaderPager(List<FeedData> feeds) => PageView.builder(
       itemCount: feeds.length,
       itemBuilder: (context, index) {
-        return Text(feeds[index].title);
+        return Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Image.network(feeds[index].image, fit: BoxFit.fitWidth),
+            Positioned(
+              bottom: 0,
+              child: Text(
+                feeds[index].title,
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            )
+          ],
+        );
       });
 
   Future<LatestFeedResponse> fetchPost() async {
