@@ -1,6 +1,7 @@
 class DetailData {
   String body;
   String imageSource;
+  String image;
   String title;
   List<String> images;
   List<String> css;
@@ -14,6 +15,7 @@ class DetailData {
     id = json["id"];
     type = json["type"];
     images = List<String>.from(json["images "] ?? []);
+    image = json["image"] ;
     css = List<String>.from(json["css "] ?? []);
   }
 }
