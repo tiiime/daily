@@ -1,3 +1,4 @@
+import 'package:daily/detail.dart';
 import 'package:daily/model/FeedData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -18,6 +19,12 @@ class _FeedState extends State<FeedWidget> {
       builder: (context, snapshot) {
         return getChild(snapshot);
       });
+
+  jump(id) => () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DetailWidget("$id")));
+        print("tapped on $id");
+      };
 
   getChild(snapshot) {
     switch (snapshot.connectionState) {
@@ -46,23 +53,26 @@ class _FeedState extends State<FeedWidget> {
             );
           } else {
             final item = resp.stories[index - 1];
-            return Container(
-                height: 100,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(
-                      child: Text(
-                        item.title,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+            return InkWell(
+              onTap: jump(item.id.toString()),
+              child: Container(
+                  height: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Flexible(
+                        child: Text(
+                          item.title,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                    Flexible(
-                      child: Image.network(item.images[0] ?? "",
-                          fit: BoxFit.cover),
-                    )
-                  ],
-                ));
+                      Flexible(
+                        child: Image.network(item.images[0] ?? "",
+                            fit: BoxFit.cover),
+                      )
+                    ],
+                  )),
+            );
           }
         },
       );
@@ -70,18 +80,21 @@ class _FeedState extends State<FeedWidget> {
   createHeaderPager(List<FeedData> feeds) => PageView.builder(
       itemCount: feeds.length,
       itemBuilder: (context, index) {
-        return Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Image.network(feeds[index].image, fit: BoxFit.fitWidth),
-            Positioned(
-              bottom: 0,
-              child: Text(
-                feeds[index].title,
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-            )
-          ],
+        return GestureDetector(
+          onTap: jump(feeds[index].id.toString()),
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Image.network(feeds[index].image, fit: BoxFit.fitWidth),
+              Positioned(
+                bottom: 0,
+                child: Text(
+                  feeds[index].title,
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              )
+            ],
+          ),
         );
       });
 

@@ -1,3 +1,4 @@
+import 'package:daily/detail.dart';
 import 'package:flutter/material.dart';
 import 'FeedWidget.dart';
 
@@ -42,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
+//      body: DetailWidget("3892357"),
       body: FeedWidget(),
     );
   }
