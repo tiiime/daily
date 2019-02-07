@@ -30,10 +30,7 @@ class _FeedState extends State<FeedWidget> {
 
   jump(FeedData it) => () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    DetailWidget("${it.id}", it.image ?? it.images[0] ?? "")));
+            context, MaterialPageRoute(builder: (context) => DetailWidget(it)));
         print("tapped on ${it.id}");
       };
 
@@ -75,7 +72,6 @@ class _FeedState extends State<FeedWidget> {
                       ),
                       Flexible(
                         child: Hero(
-
                           tag: "feed_cover_hero_${item.id}",
                           child: Image.network(item.images[0] ?? "",
                               fit: BoxFit.cover),
