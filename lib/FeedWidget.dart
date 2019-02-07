@@ -13,9 +13,17 @@ class FeedWidget extends StatefulWidget {
 }
 
 class _FeedState extends State<FeedWidget> {
+  Future<LatestFeedResponse> _fetchLatestFeed;
+
+  @override
+  void initState() {
+    _fetchLatestFeed = fetchPost();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) => FutureBuilder<LatestFeedResponse>(
-      future: fetchPost(),
+      future: _fetchLatestFeed,
       builder: (context, snapshot) {
         return getChild(snapshot);
       });
@@ -35,10 +43,6 @@ class _FeedState extends State<FeedWidget> {
         return Text('Awaiting result...');
       case ConnectionState.done:
         if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-
-        for (final it in snapshot.data.stories) {
-          print(it.title);
-        }
         return createFeedList(snapshot.data);
     }
   }
