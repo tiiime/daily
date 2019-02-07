@@ -22,13 +22,16 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: "latest"),
+      home: const MyHomePage(title: "latest"),
+      routes: <String,WidgetBuilder>{
+        '/detail':(context)=>DetailWidget("3892357")
+      },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
 
