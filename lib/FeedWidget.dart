@@ -28,10 +28,13 @@ class _FeedState extends State<FeedWidget> {
         return getChild(snapshot);
       });
 
-  jump(id) => () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DetailWidget("$id")));
-        print("tapped on $id");
+  jump(FeedData it) => () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    DetailWidget("${it.id}", it.image ?? it.images[0] ?? "")));
+        print("tapped on ${it.id}");
       };
 
   getChild(snapshot) {
@@ -58,7 +61,7 @@ class _FeedState extends State<FeedWidget> {
           } else {
             final item = resp.stories[index - 1];
             return InkWell(
-              onTap: jump(item.id.toString()),
+              onTap: jump(item),
               child: Container(
                   height: 100,
                   child: Row(
@@ -71,8 +74,12 @@ class _FeedState extends State<FeedWidget> {
                         ),
                       ),
                       Flexible(
-                        child: Image.network(item.images[0] ?? "",
-                            fit: BoxFit.cover),
+                        child: Hero(
+
+                          tag: "feed_cover_hero_${item.id}",
+                          child: Image.network(item.images[0] ?? "",
+                              fit: BoxFit.cover),
+                        ),
                       )
                     ],
                   )),
@@ -85,11 +92,14 @@ class _FeedState extends State<FeedWidget> {
       itemCount: feeds.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: jump(feeds[index].id.toString()),
+          onTap: jump(feeds[index]),
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              Image.network(feeds[index].image, fit: BoxFit.fitWidth),
+              Hero(
+                tag: "feed_cover_hero_${feeds[index].id}",
+                child: Image.network(feeds[index].image, fit: BoxFit.fitWidth),
+              ),
               Positioned(
                 bottom: 0,
                 child: Text(

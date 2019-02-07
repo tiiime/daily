@@ -6,18 +6,20 @@ import 'package:http/http.dart' as http;
 
 class DetailWidget extends StatefulWidget {
   final String id;
+  final String cover;
 
-  DetailWidget(this.id);
+  DetailWidget(this.id, this.cover);
 
   @override
-  State<StatefulWidget> createState() => _DetailState(id);
+  State<StatefulWidget> createState() => _DetailState(id, cover);
 }
 
 class _DetailState extends State<DetailWidget> {
   String id;
-  String title="";
+  String cover;
+  String title = "";
 
-  _DetailState(this.id);
+  _DetailState(this.id, this.cover);
 
   Future<DetailData> _requestDetail() async {
     final resp = await http.get('https://news-at.zhihu.com/api/4/news/$id');
@@ -31,10 +33,23 @@ class _DetailState extends State<DetailWidget> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: Text(title)),
-        body: _createbody(),
+        body: _createBody(),
       );
 
-  _createbody() => FutureBuilder<DetailData>(
+  _createBody() => SingleChildScrollView(
+    child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
+      SizedBox(
+        width: double.infinity,
+        child: Hero(
+          tag: "feed_cover_hero_$id",
+          child: Image.network(cover,fit: BoxFit.contain,),
+        ),
+      ),
+      _requestBody()
+    ]),
+  );
+
+  _requestBody() => FutureBuilder<DetailData>(
         future: _requestDetail(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
@@ -48,12 +63,7 @@ class _DetailState extends State<DetailWidget> {
 
               final detail = snapshot.data;
               print("detail ${detail.image}");
-              return SingleChildScrollView(
-                child: Column(children: <Widget>[
-                  Image.network(detail.image),
-                  Text(detail.body)
-                ]),
-              );
+              return Text(detail.body);
           }
         },
       );

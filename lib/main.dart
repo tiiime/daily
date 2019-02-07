@@ -23,9 +23,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: "latest"),
-      routes: <String,WidgetBuilder>{
-        '/detail':(context)=>DetailWidget("3892357")
-      },
     );
   }
 }
